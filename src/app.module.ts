@@ -10,12 +10,28 @@ import { User } from './users/Users.entity';
   imports: [
     PokemonsModule,
     UsersModule,
+    // for sqlitw
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [Pokemon, User],
       synchronize: true,
     }),
+
+    // for postgres
+    TypeOrmModule
+      .forRoot
+      //   {
+      //   type: 'postgres',
+      //   host: 'localhost',
+      //   port: 5432,
+      //   username: 'majd',
+      //   password: '1234',
+      //   database: 'Pokemons',
+      //   synchronize: true,
+      //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      // }
+      (),
     UsersModule,
   ],
   controllers: [AppController],
