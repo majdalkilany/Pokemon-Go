@@ -4,20 +4,35 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PokemonsModule } from './pokemons/pokemons.module';
-import { Pokemon } from './pokemons/pokemons.entity';
+// import { Pokemon } from './pokemons/pokemons.entity';
 import { UsersModule } from './users/users.module';
-import { User } from './users/Users.entity';
+// import { User } from './users/Users.entity';
+// import { config } from 'process';
 @Module({
   imports: [
     PokemonsModule,
     UsersModule,
-    // for sqlite
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'db.sqlite',
-      entities: [Pokemon, User],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'sqlite',
+          database: config.get<string>('DB_NAME'),
+          synchronize: true,
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        };
+      },
+    }),
+    // TypeOrmModule.forRoot({
+    //   type: 'sqlite',
+    //   database: 'db.sqlite',
+    //   entities: [Pokemon, User],
+    //   synchronize: true,
+    // }),
 
     // for postgres
     // TypeOrmModule
@@ -29,8 +44,8 @@ import { User } from './users/Users.entity';
     //   username: 'majd',
     //   password: '1234',
     //   database: 'Pokemons',
-    //   synchronize: true,
-    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    // synchronize: true,
+    // entities: [__dirname + '/**/*.entity{.ts,.js}'],
     // }
     // (),
     UsersModule,
