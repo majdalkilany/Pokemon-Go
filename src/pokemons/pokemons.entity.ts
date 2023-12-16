@@ -9,22 +9,22 @@ export class Pokemon {
   img: string;
   @Column()
   generation: number;
-  @Column()
+  @Column({ nullable: true })
   evolutionStage: string;
-  @Column()
+  @Column({ nullable: true })
   evolved: number;
-  @Column()
+  @Column({ nullable: true })
   familyId: number;
-  @Column()
+  @Column({ nullable: true })
   crossGen: number;
-  @Column()
+  @Column({ nullable: true })
   type1: string;
-  @Column()
+  @Column({ nullable: true })
   statTotal: number;
-  @Column()
+  @Column({ nullable: true })
   atk: number;
-  @Column()
+  @Column({ nullable: true })
   def: number;
-  @Column()
+  @Column({ nullable: true })
   sta: number;
 }
