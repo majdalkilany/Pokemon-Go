@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Pokemon } from './pokemons.entity';
@@ -7,7 +7,7 @@ import * as path from 'path';
 import { CreatePokemonDto } from './dtos/create-pokemon.dto';
 
 @Injectable()
-export class PokemonsService {
+export class PokemonsService implements OnModuleInit {
   constructor(
     @InjectRepository(Pokemon)
     private readonly pokemonRepository: Repository<Pokemon>,
@@ -92,5 +92,9 @@ export class PokemonsService {
     });
 
     await this.pokemonRepository.save(entitiesToSave);
+  }
+
+  async onModuleInit() {
+    await this.seedDataFromExcel();
   }
 }

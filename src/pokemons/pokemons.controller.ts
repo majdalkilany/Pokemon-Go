@@ -13,6 +13,7 @@ import { PokemonsService } from './pokemons.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreatePokemonDto } from './dtos/create-pokemon.dto';
 import { UpdatePokemonDto } from './dtos/update-pokemon.dto';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 @Controller('pokemons')
 export class PokemonsController {
@@ -24,8 +25,8 @@ export class PokemonsController {
     await this.pokemonService.seedDataFromExcel();
   }
 
+  @UseGuards(AdminGuard)
   @Post()
-  @UseGuards(AuthGuard)
   createPokemon(@Body() body: CreatePokemonDto) {
     return this.pokemonService.create(body);
   }
@@ -55,12 +56,12 @@ export class PokemonsController {
     const pokemons = await this.pokemonService.getAllPokemons(page, pageSize);
     return pokemons;
   }
-
+  @UseGuards(AdminGuard)
   @Patch('/:id')
   updateUser(@Param('id') id: string, @Body() body: UpdatePokemonDto) {
     return this.pokemonService.update(parseInt(id), body);
   }
-
+  @UseGuards(AdminGuard)
   @Delete('/:id')
   removeUser(@Param('id') id: string) {
     return this.pokemonService.remove(parseInt(id));
