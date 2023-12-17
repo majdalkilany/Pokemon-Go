@@ -10,10 +10,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { PokemonsService } from './pokemons.service';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { CreatePokemonDto } from './dtos/create-pokemon.dto';
 import { UpdatePokemonDto } from './dtos/update-pokemon.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('pokemons')
 export class PokemonsController {
